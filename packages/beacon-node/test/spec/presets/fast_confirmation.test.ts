@@ -95,6 +95,9 @@ const EXECUTION_PAYLOAD_ENVELOPE_FILE_NAME = "^(execution_payload_envelope)_([0-
 
 const logger = testLogger("spec-test");
 
+/** `LODESTAR_NATIVE_FORK_CHOICE=true` runs the vectors against the native (Zig) fork choice */
+const nativeForkChoice = process.env.LODESTAR_NATIVE_FORK_CHOICE === "true";
+
 const fastConfirmationTest =
   (opts: {onlyPredefinedResponses: boolean}): TestRunnerFn<FastConfirmationTestCase, void> =>
   (fork) => {
@@ -154,6 +157,7 @@ const fastConfirmationTest =
             proposerBoost: true,
             proposerBoostReorg: true,
             fastConfirmation: true,
+            nativeForkChoice,
           },
           {
             privateKey: await generateKeyPair("secp256k1"),
